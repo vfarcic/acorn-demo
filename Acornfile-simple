@@ -1,0 +1,4 @@
+containers: app: {
+        build: context: "."
+        ports: publish: "8080/http"
+}

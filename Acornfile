@@ -1,0 +1,28 @@
+services: db: image: "ghcr.io/acorn-io/postgres:v15.#-#"
+
+jobs: {
+	dbinit: {
+		build: "./db-schema"
+		env: {
+			DB_ENDPOINT: "@{service.db.address}"
+			DB_PORT:     "5432"
+			DB_NAME:     "@{service.db.data.dbName}"
+			DB_USER:     "@{service.db.secrets.admin.username}"
+			DB_PASS:     "@{service.db.secrets.admin.password}"
+		}
+		consumes: ["db"]
+	}
+}
+
+containers: app: {
+	build: context: "."
+	ports: publish: "8080/http"
+	consumes: ["db"]
+	env: {
+		DB_ENDPOINT: "@{service.db.address}"
+		DB_PORT:     "5432"
+		DB_NAME:     "@{service.db.data.dbName}"
+		DB_USER:     "@{service.db.secrets.admin.username}"
+		DB_PASS:     "@{service.db.secrets.admin.password}"
+	}
+}
