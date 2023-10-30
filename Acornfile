@@ -2,7 +2,10 @@ services: db: image: "ghcr.io/acorn-io/postgres:v15.#-#"
 
 jobs: {
 	dbinit: {
-		build: "./db-schema"
+		build: {
+			context: "."
+			dockerfile: "Dockerfile-migrations"
+		}
 		env: {
 			DB_ENDPOINT: "@{service.db.address}"
 			DB_PORT:     "5432"
@@ -10,6 +13,7 @@ jobs: {
 			DB_USER:     "@{service.db.secrets.admin.username}"
 			DB_PASS:     "@{service.db.secrets.admin.password}"
 		}
+		entrypoint: ["sh", "-c", "/migrations/run.sh"]
 		consumes: ["db"]
 	}
 }

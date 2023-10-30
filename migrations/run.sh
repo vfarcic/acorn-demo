@@ -1,0 +1,1 @@
+/atlas schema apply --url postgres://$DB_USER:$DB_PASS@$DB_ENDPOINT:5432/$DB_NAME?sslmode=disable --to file://migrations/videos.hcl --auto-approve
