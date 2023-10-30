@@ -30,3 +30,4 @@ containers: app: {
 		DB_PASS:     "@{service.db.secrets.admin.password}"
 	}
 }
+
